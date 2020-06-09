@@ -11,9 +11,10 @@ stake=$INITIAL_STAKE
 stakePercentAmount=$(( 50*$INITIAL_STAKE/100 ))
 max_win=$(( $stakePercentAmount+$INITIAL_STAKE ))
 max_loss=$(( $INITIAL_STAKE-$stakePercentAmount ))
+numofDays=20
 
 function result() 
-{
+{	stake=$INITIAL_STAKE
         while [ $stake -lt $max_win ] && [ $stake -gt $max_loss ]
         do
         rem=$(( RANDOM%2 ))
@@ -27,6 +28,16 @@ function result()
         done
 }
 
-result
+for (( day=0; day<$numofDays; day++ ))
+        do
+        result
+                if [ $stake -eq $max_loss ]
+                then
+                totalWinOrloss=$(( totalWinOrloss-50 ))
+                else
+                totalWinOrloss=$(( totalWinOrloss+50 ))
+                fi 
+        echo "Resign for day"
+        done
 
-echo "Resign for day"
+ echo $totalWinOrloss
